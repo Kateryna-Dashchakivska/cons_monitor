@@ -35,6 +35,10 @@ def send_telegram_message(token: str, chat_id: str, text: str):
     )
     response.raise_for_status()
 
+def send_to_all_chat_ids(token: str, chat_ids: list[str], text: str):
+    for cid in chat_ids:
+        send_telegram_message(token, cid, text)
+
 def fetch_page_text(url: str) -> str:
     headers = {
         "User-Agent": "Mozilla/5.0 (compatible; ConsulateMonitor/1.0)"
@@ -105,7 +109,7 @@ def main():
             f"Time: {now}\n"
             f"URL: {URL}"
         )
-        send_telegram_message(token, chat_id, message)
+        send_to_all_chat_ids(token, chat_ids, message)
         print("Test Telegram message sent.")
         return
     
@@ -116,7 +120,7 @@ def main():
             f"URL: {URL}\n"
             f"New keywords: {', '.join(new_keywords) if new_keywords else 'none'}"
         )
-        send_telegram_message(token, chat_id, message)
+        send_to_all_chat_ids(token, chat_ids, message)
         print("Change detected. Telegram message sent.")
     else:
         print("No change detected.")
