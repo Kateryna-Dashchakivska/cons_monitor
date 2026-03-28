@@ -71,6 +71,8 @@ def find_keywords(text: str):
 def main():
     token = os.environ["TELEGRAM_BOT_TOKEN"]
     chat_id = os.environ["TELEGRAM_CHAT_ID"]
+    
+    test_mode = os.environ.get("TEST_MODE", "false").lower() == "true"
 
     now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
     page_text = fetch_page_text(URL)
@@ -94,6 +96,16 @@ def main():
         print("First run completed. Baseline saved.")
         return
 
+    if test_mode:
+        message = (
+            "✅ Test message from GitHub Actions\n"
+            f"Time: {now}\n"
+            f"URL: {URL}"
+        )
+        send_telegram_message(token, chat_id, message)
+        print("Test Telegram message sent.")
+        return
+    
     if page_changed or new_keywords:
         message = (
             "⚠️ Consulate page changed\n"
