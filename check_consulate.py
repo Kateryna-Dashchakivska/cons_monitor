@@ -106,7 +106,7 @@ def main():
 
     if test_mode:
         message = (
-            "✅ Test message from GitHub Actions\n"
+            "✅ Kate's test message from GitHub Actions\n"
             f"Time: {now}\n"
             f"URL: {URL}"
         )
