@@ -70,7 +70,10 @@ def find_keywords(text: str):
 
 def main():
     token = os.environ["TELEGRAM_BOT_TOKEN"]
-    chat_id = os.environ["TELEGRAM_CHAT_ID"]
+    chat_ids = [
+        os.environ["TELEGRAM_CHAT_ID"],
+        os.environ["TELEGRAM_CHAT_ID_MOM"],
+    ]
     
     test_mode = os.environ.get("TEST_MODE", "false").lower() == "true"
 
