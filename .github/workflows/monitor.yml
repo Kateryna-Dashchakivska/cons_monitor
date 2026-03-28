@@ -1,8 +1,7 @@
-name: Monitor consulate page
+name: monitor
 
 on:
   schedule:
-    # Every 15 mins
     - cron: "*/15 * * * *"
   workflow_dispatch:
 
@@ -20,7 +19,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with: 
+        with:
           fetch-depth: 0
 
       - name: Set up Python
@@ -33,9 +32,7 @@ jobs:
 
       - name: Restore previous state
         run: |
-          if [ -f state.json ]; then
-            echo "Existing state.json found"
-          else
+          if [ ! -f state.json ]; then
             echo "{}" > state.json
           fi
 
@@ -46,6 +43,7 @@ jobs:
         run: python check_consulate.py
 
       - name: Commit updated state
+        shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -53,6 +51,11 @@ jobs:
           git fetch origin main
           git checkout main
           git reset --hard origin/main
+
+          if [ ! -f state.json ]; then
+            echo "state.json not found"
+            exit 1
+          fi
 
           git add state.json
 
