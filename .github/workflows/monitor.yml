@@ -2,8 +2,8 @@ name: Monitor consulate page
 
 on:
   schedule:
-    # Кожні 2 години
-    - cron: "0 */2 * * *"
+    # Every 15 mins
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 permissions:
